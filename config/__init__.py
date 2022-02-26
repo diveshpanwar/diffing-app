@@ -17,3 +17,5 @@ DIRS = {
     "destination_files": "data/destination_files",
     "html_files": "data/html_files"
 }
+
+ALLOWED_FILES = ["xml", "json", "yaml", "txt"]
