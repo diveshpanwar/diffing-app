@@ -5,6 +5,7 @@ Email: divesh.panwar@gmail.com
 """
 
 from os import environ
+from os.path import abspath
 
 
 HOST: str = environ.get("HOST", "0,0,0,0")
@@ -18,4 +19,6 @@ DIRS = {
     "html_files": "data/html_files"
 }
 
+
+TEMPLATE_FOLDER = abspath(DIRS["html_files"])
 ALLOWED_FILES = ["xml", "json", "yaml", "txt"]
