@@ -14,6 +14,7 @@ from flask_restx import Resource, reqparse
 from werkzeug.datastructures import FileStorage
 from time import perf_counter
 
+
 diff_post_endpoint = reqparse.RequestParser()
 diff_post_endpoint.add_argument(
     "old_file",
@@ -35,6 +36,7 @@ diff_namespace = diff_api.namespace(
     "diff_namespace",
     description="Diffing Operations on the files."
 )
+
 
 @diff_namespace.route("/compare")
 class Compare(Resource):
