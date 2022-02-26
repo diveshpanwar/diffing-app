@@ -12,7 +12,9 @@ from flask_sslify import SSLify
 from config import DEBUG, DIRS, TEMPLATE_FOLDER
 from flask_cors import CORS
 from api.blueprints.diff_blueprint import diff_blueprint
-from os import path
+from os import path, walk
+from os.path import getmtime
+from datetime import datetime, timezone
 
 app = Flask(__name__, template_folder=TEMPLATE_FOLDER)
 SSLify(app)
@@ -65,6 +67,39 @@ def health():
                 "/api/v1/diff": "Difffing API"
         }
     })
+
+
+@app.route("/files", methods=["GET"])
+def files():
+    title = "Files On Server"
+    data = []
+
+    def get_time(timestamp): return str(
+        datetime.fromtimestamp(
+            timestamp,
+            datetime.now(timezone.utc).astimezone().tzinfo
+        ).strftime('%d %D, %Y %I:%M:%S %p, %A')
+    )
+
+    try:
+        for dirpath, dirroot, filenames in walk(path.join(DIRS["html_files"])):
+            for filename in filenames:
+                if (filename != "files.html"):
+                    timestamp = getmtime(path.join(dirpath, filename))
+                    data.append({
+                        "filename": filename,
+                        "date_created": get_time(timestamp)
+                    })
+    except Exception as ex:
+        logging.exception(ex)
+        return jsonify({
+            "error": "Unable to Fetch the List of Files on the Server"
+        }), 500
+    if len(data) == 0:
+        return jsonify({
+            "message": "No Files Present on Server"
+        })
+    return render_template("files.html", title=title, data=data)
 
 
 if __name__ == "__main__":

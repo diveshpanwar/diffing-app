@@ -2,5 +2,8 @@
 .git
 __pycache__
 .venv
-data
 ssl
+data/html_files/*.html
+!data/html_files/files.html
+data/destination_files
+data/source_files
