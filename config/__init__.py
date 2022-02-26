@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""
+Author: Divesh Panwar
+Email: divesh.panwar@gmail.com
+"""
+
 from os import environ
 
 
