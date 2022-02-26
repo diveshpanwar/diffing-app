@@ -8,12 +8,14 @@ Email: divesh.panwar@gmail.com
 import logging
 from flask import Flask, jsonify, redirect
 from packages.helper import make_dirs, set_logging
+from flask_sslify import SSLify
 from config import DEBUG
 from flask_cors import CORS
 from api.blueprints.diff_blueprint import diff_blueprint
 
 app = Flask(__name__)
-cors = CORS(app)
+SSLify(app)
+CORS(app)
 
 set_logging()
 make_dirs()
@@ -51,5 +53,5 @@ def health():
 if __name__ == "__main__":
     app.run(
         debug=DEBUG,
-        ssl_context="adhoc"
+        ssl_context=("ssl/cert.pem", "ssl/key.pem")
     )
