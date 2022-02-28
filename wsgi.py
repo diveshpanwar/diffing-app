@@ -12,6 +12,7 @@ from flask_sslify import SSLify
 from config import DEBUG, DIRS, TEMPLATE_FOLDER
 from flask_cors import CORS
 from api.blueprints.diff_blueprint import diff_blueprint
+from api.blueprints.home import home_blueprint
 from os import path, walk
 from os.path import getmtime
 from datetime import datetime, timezone
@@ -26,6 +27,8 @@ make_dirs()
 
 # Register Blueprints
 app.register_blueprint(diff_blueprint, url_prefix="/api/v1/diff")
+app.register_blueprint(home_blueprint, url_prefix="/")
+
 
 
 @app.route("/<path:text>", methods=["GET", "POST"])
@@ -46,7 +49,7 @@ def send_html(html_file_name):
 
 @app.route("/", methods=["GET", "POST", "PUT", "DELETE"])
 def root():
-    root_redirection = "/api/v1/diff"
+    root_redirection = "/"
     logging.info(f"Redirecting to {root_redirection}")
     return redirect(root_redirection)
 
